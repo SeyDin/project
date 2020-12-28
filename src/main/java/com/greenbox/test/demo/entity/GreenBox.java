@@ -1,11 +1,10 @@
 package com.greenbox.test.demo.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "greenboxes")
+public class GreenBox {
 
     @Id
     @Column(name = "id")
@@ -15,14 +14,11 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "user_id")
+    private Integer userId;
 
-    //Так правильно делать?
-    // https://www.logicbig.com/tutorials/java-ee-tutorial/jpa/one-to-many-foreign-key-mapping.html
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private List<GreenBox> greenBoxList;
+    @Column(name = "grow_program_id")
+    private Integer growProgramId;
 
     public Integer getId() {
         return id;
@@ -40,11 +36,19 @@ public class User {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getGrowProgramId() {
+        return growProgramId;
+    }
+
+    public void setGrowProgramId(Integer growProgramId) {
+        this.growProgramId = growProgramId;
     }
 }
