@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
-    @GetMapping(value ="/index")
+    @GetMapping(value ={"/", "/index"})
     public String index (ModelMap modelMap){
         //System.out.println("Index controller method");
         modelMap.addAttribute("message", "WelcomeToHell=)");
+        modelMap.addAttribute("title", "CreenBox inc.");
         return "index";
     }
 }
