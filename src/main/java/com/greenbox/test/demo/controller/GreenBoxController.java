@@ -1,54 +1,71 @@
 package com.greenbox.test.demo.controller;
 
+import com.greenbox.test.demo.controller.form.convert.GreenBoxRegistrationForm;
 import com.greenbox.test.demo.entity.GreenBox;
-import com.greenbox.test.demo.service.GreenBoxService;
+import com.greenbox.test.demo.entity.User;
+import com.greenbox.test.demo.repository.GreenBoxRepository;
+import com.greenbox.test.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import javax.validation.Valid;
 
-@RestController
+@Controller
+@RequestMapping("/green_boxes")
 public class GreenBoxController {
 
-    private final GreenBoxService greenBoxService;
+    private final UserService userService;
+    private final GreenBoxRepository greenBoxRepository;
 
     @Autowired
-    public GreenBoxController(GreenBoxService greenBoxService) {
-        this.greenBoxService = greenBoxService;
+    public GreenBoxController(UserService userService, GreenBoxRepository greenBoxRepository) {
+        this.userService = userService;
+        this.greenBoxRepository = greenBoxRepository;
     }
 
-    @PostMapping(value = "/green_boxes")
-    public ResponseEntity<?> create(@RequestBody GreenBox greenBox) {
-        greenBoxService.create(greenBox);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @GetMapping
+    public String list(ModelMap modelMap){
+        User user = userService.getCurrentUser();
+        Integer id =  user.getId().intValue(); // дикий костыль, а всё потому, что надо сменить тип id у user'а на Integer.
+        // А как это сделать быстро?
+        modelMap.addAttribute("greenBoxes", greenBoxRepository.findAllByUserId(id));
+        return "green_boxes/list";
     }
 
-    @GetMapping(value = "/green_boxes")
-    public ResponseEntity<List<GreenBox>> read() {
-        final List<GreenBox> greenBoxes = greenBoxService.readAll();
+    @GetMapping("/add")
+    public String add(ModelMap modelMap) {
 
-        return greenBoxes != null &&  !greenBoxes.isEmpty()
-                ? new ResponseEntity<>(greenBoxes, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        User user = userService.getCurrentUser();
+
+        modelMap.addAttribute("gb_form", new GreenBoxRegistrationForm());
+        modelMap.addAttribute("currentUserName", user.getUsername());
+
+        return "green_boxes/add";
     }
 
-    @PutMapping(value = "/green_boxes/{id}")
-    public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody GreenBox greenBox) {
-        final boolean updated = greenBoxService.update(greenBox, id);
+    @PostMapping("/add")
+    public String add(@Valid @ModelAttribute("gb_form") GreenBoxRegistrationForm greenBoxRegistrationForm,
+                      BindingResult result, ModelMap modelMap) {
+        System.out.println("greenBox add begin");
+        if (result.hasErrors()) {
+            return "green_boxes/add";
+        }
 
-        return updated
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
+        GreenBox greenBox = new GreenBox();
+        greenBox.setName(greenBoxRegistrationForm.getName());
+        greenBox.setGrowProgramId(greenBoxRegistrationForm.getGrowProgramId());
+        User user = userService.getCurrentUser();
+        Integer id =  user.getId().intValue(); // дикий костыль, а всё потому, что надо сменить тип id у user'а на Integer.
+        greenBox.setUserId(id);
+        greenBoxRepository.save(greenBox);
 
-    @DeleteMapping(value = "/greenBoxes/{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
-        final boolean deleted = greenBoxService.delete(id);
-
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        return "redirect:/green_boxes";
     }
 }

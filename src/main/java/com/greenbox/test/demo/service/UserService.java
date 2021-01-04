@@ -15,7 +15,7 @@ public interface UserService extends UserDetailsService {
     boolean update(User user, int id);
     boolean delete(int id);
 */
-
+    // Взято из mvc-example
     User signupUser(User user);
     User getCurrentUser();
     boolean hasRole(String role);
