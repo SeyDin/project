@@ -1,7 +1,6 @@
 package com.greenbox.test.demo.service;
 
 import com.greenbox.test.demo.entity.GreenBox;
-import com.greenbox.test.demo.entity.GreenBox;
 import com.greenbox.test.demo.repository.GreenBoxRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +25,12 @@ public class GreenBoxServiceImpl implements GreenBoxService{
     }
 
     @Override
-    public GreenBox read(int id) {
+    public GreenBox read(Long id) {
         return greenBoxRepository.getOne(id);
     }
 
     @Override
-    public boolean update(GreenBox greenBox, int id) {
+    public boolean update(GreenBox greenBox, Long id) {
         if (greenBoxRepository.existsById(id)) {
             greenBox.setId(id);
             greenBoxRepository.save(greenBox);
@@ -42,7 +41,7 @@ public class GreenBoxServiceImpl implements GreenBoxService{
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(Long id) {
         if (greenBoxRepository.existsById(id)) {
             greenBoxRepository.deleteById(id);
             return true;
