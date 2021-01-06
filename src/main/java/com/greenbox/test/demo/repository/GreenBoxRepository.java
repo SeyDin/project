@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface GreenBoxRepository extends JpaRepository<GreenBox, Integer> {
-    List<GreenBox> findAllByUserId(Integer userId); // Integer или Long?
+    List<GreenBox> findAllByUserId(Long userId); // Integer или Long?
 }

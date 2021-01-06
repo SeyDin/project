@@ -15,7 +15,7 @@ public class GreenBox {
     private String name;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     @Column(name = "grow_program_id")
     private Integer growProgramId;
@@ -36,11 +36,11 @@ public class GreenBox {
         this.name = name;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

@@ -33,7 +33,7 @@ public class GreenBoxController {
     @GetMapping
     public String list(ModelMap modelMap){
         User user = userService.getCurrentUser();
-        Integer id =  user.getId().intValue(); // дикий костыль, а всё потому, что надо сменить тип id у user'а на Integer.
+        Long id =  user.getId(); // дикий костыль, а всё потому, что надо сменить тип id у user'а на Integer.
         // А как это сделать быстро?
         modelMap.addAttribute("greenBoxes", greenBoxRepository.findAllByUserId(id));
         return "green_boxes/list";
@@ -62,7 +62,7 @@ public class GreenBoxController {
         greenBox.setName(greenBoxRegistrationForm.getName());
         greenBox.setGrowProgramId(greenBoxRegistrationForm.getGrowProgramId());
         User user = userService.getCurrentUser();
-        Integer id =  user.getId().intValue(); // дикий костыль, а всё потому, что надо сменить тип id у user'а на Integer.
+        Long id =  user.getId();
         greenBox.setUserId(id);
         greenBoxRepository.save(greenBox);
 
