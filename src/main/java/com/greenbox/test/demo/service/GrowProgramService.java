@@ -2,8 +2,10 @@ package com.greenbox.test.demo.service;
 
 import com.greenbox.test.demo.entity.GrowProgram;
 import com.greenbox.test.demo.entity.GrowProgram;
+import com.greenbox.test.demo.entity.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface GrowProgramService {
     /**Создает новый growProgram
@@ -30,4 +32,6 @@ public interface GrowProgramService {
      * @param id - id growProgram, которого нужно удалить
      * @return - true если growProgram был удален, иначе false*/
     boolean delete(Long id);
+
+    List<GrowProgram> findFavoritesProgramsForUser(User user);
 }

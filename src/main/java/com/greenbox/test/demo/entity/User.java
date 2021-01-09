@@ -1,5 +1,6 @@
 package com.greenbox.test.demo.entity;
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,16 +11,17 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@Data
 public class User implements UserDetails{
 
     @Id
     @Column(name = "id")
     @SequenceGenerator(name = "user_id_sequence_gen",
-            sequenceName="user_id_sequence", initialValue = 2)
+            sequenceName="user_id_sequence", initialValue = 3)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_sequence_gen")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "password")
@@ -41,13 +43,6 @@ public class User implements UserDetails{
             inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
     private Set<Role> roles;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -62,18 +57,6 @@ public class User implements UserDetails{
     @Override
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
     @Override
@@ -96,11 +79,4 @@ public class User implements UserDetails{
         return true;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

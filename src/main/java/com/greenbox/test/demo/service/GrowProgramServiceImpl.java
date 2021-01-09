@@ -1,10 +1,12 @@
 package com.greenbox.test.demo.service;
 
 import com.greenbox.test.demo.entity.GrowProgram;
+import com.greenbox.test.demo.entity.User;
 import com.greenbox.test.demo.repository.GrowProgramRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class GrowProgramServiceImpl implements GrowProgramService{
@@ -48,4 +50,10 @@ public class GrowProgramServiceImpl implements GrowProgramService{
         }
         return false;
     }
+
+    @Override
+    public List<GrowProgram> findFavoritesProgramsForUser(User user) {
+        return growProgramRepository.findAllByUsers(user);
+    }
+
 }

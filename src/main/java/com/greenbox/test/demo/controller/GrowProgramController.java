@@ -1,12 +1,9 @@
 package com.greenbox.test.demo.controller;
 
-import com.greenbox.test.demo.controller.form.convert.GreenBoxRegistrationForm;
 import com.greenbox.test.demo.controller.form.convert.GrowProgramRegistrationForm;
-import com.greenbox.test.demo.entity.GreenBox;
 import com.greenbox.test.demo.entity.GrowProgram;
 import com.greenbox.test.demo.entity.User;
-import com.greenbox.test.demo.service.GreenBoxServiceImpl;
-import com.greenbox.test.demo.service.GrowProgramServiceImpl;
+import com.greenbox.test.demo.service.GrowProgramService;
 import com.greenbox.test.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,10 +19,10 @@ import java.util.List;
 public class GrowProgramController {
 
     private final UserService userService;
-    private final GrowProgramServiceImpl growProgramService;
+    private final GrowProgramService growProgramService;
 
     @Autowired
-    public GrowProgramController(UserService userService, GrowProgramServiceImpl growProgramService) {
+    public GrowProgramController(UserService userService, GrowProgramService growProgramService) {
         this.userService = userService;
         this.growProgramService = growProgramService;
     }

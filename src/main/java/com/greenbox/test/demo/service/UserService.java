@@ -1,9 +1,11 @@
 package com.greenbox.test.demo.service;
 
+import com.greenbox.test.demo.entity.GrowProgram;
 import com.greenbox.test.demo.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserService extends UserDetailsService {
 
@@ -19,5 +21,6 @@ public interface UserService extends UserDetailsService {
     User signupUser(User user);
     User getCurrentUser();
     boolean hasRole(String role);
+    Set<GrowProgram> getFavoritesPrograms();
 
 }

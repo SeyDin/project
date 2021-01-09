@@ -2,13 +2,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      th:include="layout :: page">
+      th:include="layout :: page" lang="en">
 <body>
 <div th:fragment="content">
     Logged user: <span sec:authentication="name">Username</span>
     <br />
     Roles: <span sec:authentication="principal.authorities">Roles</span>
-
+    <p>My favorite GrowPrograms:</p>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>description</th>
+                <th>waterIntervalId</th>
+                <th>waterVolumeId</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="grow_program : ${growPrograms}">
+                <td><p  th:text="${grow_program.id}"></p></td>
+                <td><p  th:text="${grow_program.name}"></p></td>
+                <td><p  th:text="${grow_program.description}"></p></td>
+                <td><p  th:text="${grow_program.waterIntervalId}"></p></td>
+                <td><p  th:text="${grow_program.waterVolumeId}"></p></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.greenbox.test.demo.service;
 
+import com.greenbox.test.demo.entity.GrowProgram;
 import com.greenbox.test.demo.entity.Role;
 import com.greenbox.test.demo.entity.User;
 import com.greenbox.test.demo.repository.RoleRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Set;
 
 @Service(value = "userDetailsService")
 public class UserServiceImpl implements UserService {
@@ -48,14 +50,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User signupUser(User user) {
-        System.out.println("sign up user begin");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println("sign up user step1 done");
-        System.out.println("sign up user step1.5 done");
         Role userRole = roleRepository.findById(ROLE_USER_ID).orElseThrow(IllegalStateException::new);
-        System.out.println("sign up user step2 done");
         user.setRoles(Collections.singleton(userRole));
-        System.out.println("sign up user end");
         return userRepository.save(user);
     }
 
@@ -84,4 +81,11 @@ public class UserServiceImpl implements UserService {
         }
         return hasRole;
     }
+
+    @Override
+    public Set<GrowProgram> getFavoritesPrograms() {
+        return null;
+    }
+
+
 }
