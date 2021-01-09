@@ -11,13 +11,15 @@
             <th>id</th>
             <th>name</th>
             <th>userId</th>
+            <th>growProgramId</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="greenBox : ${greenBoxes}">
-            <td><p  th:text="${greenBox.id}"/></td>
-            <td><p  th:text="${greenBox.name}"/></td>
-            <td><p  th:text="${greenBox.userId}"/></td>
+            <td><p  th:text="${greenBox.id}"></p></td>
+            <td><p  th:text="${greenBox.name}"></p></td>
+            <td><p  th:text="${greenBox.userId}"></p></td>
+            <td><p  th:text="${greenBox.growProgramId}"></p></td>
         </tr>
         </tbody>
     </table>

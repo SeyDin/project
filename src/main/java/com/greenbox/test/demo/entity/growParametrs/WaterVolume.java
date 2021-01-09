@@ -1,13 +1,13 @@
-package com.greenbox.test.demo.entity;
+package com.greenbox.test.demo.entity.growParametrs;
 
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "greenboxes")
+@Table(name = "water_volumes")
 @Data
-public class GreenBox {
+public class WaterVolume {
 
     @Id
     @Column(name = "id")
@@ -17,10 +17,6 @@ public class GreenBox {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "user_id")
-    private Long userId;
-
-    @Column(name = "grow_program_id")
-    private Integer growProgramId;
-
+    @Column(name = "volume")
+    private Long volume;
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Green box inc.</title>
+</head>
+<body>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>description</th>
+            <th>waterIntervalId</th>
+            <th>waterVolumeId</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="grow_program : ${growPrograms}">
+            <td><p  th:text="${grow_program.id}"></p></td>
+            <td><p  th:text="${grow_program.name}"></p></td>
+            <td><p  th:text="${grow_program.description}"></p></td>
+            <td><p  th:text="${grow_program.waterIntervalId}"></p></td>
+            <td><p  th:text="${grow_program.waterVolumeId}"></p></td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

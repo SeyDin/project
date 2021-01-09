@@ -1,19 +1,16 @@
 package com.greenbox.test.demo.controller;
 
 import com.greenbox.test.demo.controller.form.convert.GreenBoxRegistrationForm;
+import com.greenbox.test.demo.controller.response.ResourceNotFoundException;
 import com.greenbox.test.demo.entity.GreenBox;
 import com.greenbox.test.demo.entity.User;
 import com.greenbox.test.demo.repository.GreenBoxRepository;
 import com.greenbox.test.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -52,7 +49,6 @@ public class GreenBoxController {
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute("gb_form") GreenBoxRegistrationForm greenBoxRegistrationForm,
                       BindingResult result, ModelMap modelMap) {
-        System.out.println("greenBox add begin");
         if (result.hasErrors()) {
             return "green_boxes/add";
         }
@@ -66,5 +62,14 @@ public class GreenBoxController {
         greenBoxRepository.save(greenBox);
 
         return "redirect:/green_boxes";
+    }
+
+    @GetMapping("/{id}")
+    public String view(@PathVariable Long id, ModelMap modelMap) {
+        GreenBox greenBox = greenBoxRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+        User user = userService.getCurrentUser();
+        modelMap.addAttribute("user", user);
+        modelMap.addAttribute("greenBox", greenBox);
+        return "green_boxes/view";
     }
 }
