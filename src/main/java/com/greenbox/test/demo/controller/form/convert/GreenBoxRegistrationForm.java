@@ -11,6 +11,6 @@ public class GreenBoxRegistrationForm {
     @NotNull
     private String name;
     private Long userId;
-    private Integer growProgramId;
+    private Long growProgramId;
 
 }

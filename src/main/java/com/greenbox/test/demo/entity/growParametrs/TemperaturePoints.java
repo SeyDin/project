@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,5 +14,5 @@ import lombok.NoArgsConstructor;
 public class TemperaturePoints {
     private Long id;
     private String name;
-    private double arrayOfTemperature;
+    private List<Double> arrayOfTemperature;
 }

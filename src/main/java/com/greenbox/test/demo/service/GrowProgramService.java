@@ -33,5 +33,8 @@ public interface GrowProgramService {
      * @return - true если growProgram был удален, иначе false*/
     boolean delete(Long id);
 
+    /**Возвращает список всех избранных growProgram
+     * @param user - user, у которого надо получить список избранных программ
+     * @return - список избранных, а есл их нет, то пустой список*/
     List<GrowProgram> findFavoritesProgramsForUser(User user);
 }

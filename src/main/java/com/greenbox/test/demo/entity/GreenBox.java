@@ -21,6 +21,6 @@ public class GreenBox {
     private Long userId;
 
     @Column(name = "grow_program_id")
-    private Integer growProgramId;
+    private Long growProgramId;
 
 }
