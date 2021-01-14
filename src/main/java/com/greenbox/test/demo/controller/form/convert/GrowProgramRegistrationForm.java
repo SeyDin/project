@@ -16,7 +16,9 @@ public class GrowProgramRegistrationForm {
     @Size(min = 3, max = 255)
     private String description;
 
-    private Long waterIntervalId;
-    private Long waterVolumeId;
+    private Long wateringParametersId;
+    private Long co2Id;
+    private Long lightId;
+    private Long temperatureId;
 
 }

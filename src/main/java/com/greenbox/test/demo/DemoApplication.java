@@ -14,19 +14,5 @@ public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
-
-/*    @Bean
-    public CommandLineRunner run(UserRepository userRepository) throws Exception {
-        return (String[] args) -> {
-
-            User user1 = new User();
-            user1.setUsername("admin");
-            user1.setPassword("$2a$10$9eOIaFtzFIHJ69WslgrjieXUyPQz6F6T6SEp5vR0ZdkUHhw0mFoHK");
-            userRepository.save(user1);
-            userRepository.findAll().forEach(user -> System.out.println(user));
-
-
-        };
-    }*/
-
+    
 }

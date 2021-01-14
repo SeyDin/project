@@ -11,19 +11,26 @@
             <th>id</th>
             <th>name</th>
             <th>description</th>
-            <th>waterIntervalId</th>
-            <th>waterVolumeId</th>
+            <th>wateringParametersId</th>
+            <th>temperatureId</th>
+            <th>lightId</th>
+            <th>co2Id</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="grow_program : ${growPrograms}">
             <td><p  th:text="${grow_program.id}"></p></td>
-            <td><p  th:text="${grow_program.name}"></p></td>
+            <td><a th:href="@{${#httpServletRequest.requestURI} + '/' + ${grow_program.id}}"   th:text="${grow_program.name}"></a></td>
             <td><p  th:text="${grow_program.description}"></p></td>
-            <td><p  th:text="${grow_program.waterIntervalId}"></p></td>
-            <td><p  th:text="${grow_program.waterVolumeId}"></p></td>
+            <td><p  th:text="${grow_program.wateringParametersId}"></p></td>
+            <td><p  th:text="${grow_program.temperatureId}"></p></td>
+            <td><p  th:text="${grow_program.lightId}"></p></td>
+            <td><p  th:text="${grow_program.co2Id}"></p></td>
         </tr>
         </tbody>
     </table>
+    <form th:action="@{${#httpServletRequest.requestURI} + '/add'}">
+        <button>Create GrowProgram</button>
+    </form>
 </body>
 </html>

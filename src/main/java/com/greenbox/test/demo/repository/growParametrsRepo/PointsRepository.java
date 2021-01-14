@@ -1,12 +1,11 @@
-package com.greenbox.test.demo.repository;
+package com.greenbox.test.demo.repository.growParametrsRepo;
 
-import com.greenbox.test.demo.entity.growParametrs.TemperaturePoints;
-import com.greenbox.test.demo.entity.growParametrs.mapers.TemperaturePointsMapper;
+import com.greenbox.test.demo.entity.growParametrs.Points;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
 import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -14,37 +13,43 @@ import java.sql.Statement;
 import java.util.*;
 
 @Component
-public class TemperaturePointsRepository {
+@Scope(value="prototype") /*Необходимо, т.к. этот репозиторий используется
+ тремя сервисами (у каждого должен быть свой экземпляр)*/
+public class PointsRepository {
     private final JdbcTemplate jdbcTemplate;
+    private String tableName;
 
     @Autowired
-    public TemperaturePointsRepository(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public PointsRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
 
-    public TemperaturePoints findOne(long id){
-        List<Map<String, Object>> maps = jdbcTemplate.queryForList("SELECT name, arr from temperatures where id = ?", id);
+    public Points findOne(long id){
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList("SELECT name, arr from " + tableName +" where id = ?", id);
         if (maps.size() != 0) {
             Map<String, Object> stringObjectMap = maps.get(0);
             Object tempArray = stringObjectMap.get("arr");
             String name = (String) stringObjectMap.get("name");
             List<Double> arrayOfTemperature = sqlArrayToListDoubleConverter(tempArray);
-            return new TemperaturePoints(id, name, arrayOfTemperature);
+            return new Points(id, name, arrayOfTemperature);
         }
         return null;
     }
 
-    public Set<TemperaturePoints> findAll(){
-        List<Map<String, Object>> maps = jdbcTemplate.queryForList("SELECT id, name, arr from temperatures");
-        Set<TemperaturePoints> temperaturePointsSet = new HashSet<>();
+    public Set<Points> findAll(){
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList("SELECT id, name, arr from " + tableName);
+        Set<Points> temperaturePointsSet = new HashSet<>();
         for (Map<String, Object> stringObjectMap:
-             maps) {
-            TemperaturePoints temperaturePoints = new TemperaturePoints();
+                maps) {
+            Points temperaturePoints = new Points();
             temperaturePoints.setId((Long) stringObjectMap.get("id"));
             temperaturePoints.setName((String) stringObjectMap.get("name"));
             Object tempArray = stringObjectMap.get("arr");
-            temperaturePoints.setArrayOfTemperature(sqlArrayToListDoubleConverter(tempArray));
+            temperaturePoints.setArray(sqlArrayToListDoubleConverter(tempArray));
             temperaturePointsSet.add(temperaturePoints);
         }
         return temperaturePointsSet;
@@ -69,25 +74,34 @@ public class TemperaturePointsRepository {
         return arrayOfTemperature;
     }
 
-    public void save(TemperaturePoints temperaturePoints){
-        String query = "INSERT INTO temperatures (name, arr) VALUES (?,?)";
+    public void save(Points temperaturePoints){
+        String query = "INSERT INTO " + tableName + " (name, arr) VALUES (?,?)";
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, temperaturePoints.getName());
-            Array aArray = connection.createArrayOf("float8", temperaturePoints.getArrayOfTemperature().toArray());
+            Array aArray = connection.createArrayOf("float8", temperaturePoints.getArray().toArray());
             preparedStatement.setArray(2, aArray);
             return preparedStatement;
         });
     }
 
-    public void update(TemperaturePoints temperaturePoints){
-        String query = "UPDATE temperatures SET name = ?, arr = ? WHERE id = ?";
+    public void update(Points temperaturePoints){
+        String query = "UPDATE " + tableName + " SET name = ?, arr = ? WHERE id = ?";
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, temperaturePoints.getName());
-            Array aArray = connection.createArrayOf("float8", temperaturePoints.getArrayOfTemperature().toArray());
+            Array aArray = connection.createArrayOf("float8", temperaturePoints.getArray().toArray());
             preparedStatement.setArray(2, aArray);
             preparedStatement.setLong(3, temperaturePoints.getId());
+            return preparedStatement;
+        });
+    }
+
+    public void delete(long id){
+        String query = "DELETE FROM " + tableName + " WHERE id = ?";
+        jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setLong(1, id);
             return preparedStatement;
         });
     }

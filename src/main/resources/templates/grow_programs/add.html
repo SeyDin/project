@@ -5,41 +5,50 @@
     <title>Green box inc.</title>
 </head>
 <body>
-    <form th:action="@{/grow_programs/add}" th:object="${gp_form}" method="POST">
-        <!--<input type="hidden" th:field="*{id}" /> -->
+<form th:action="@{/grow_programs/add}" th:object="${gp_form}" method="POST">
+    <!--<input type="hidden" th:field="*{id}" /> -->
 
-        <input type="hidden" th:field="*{id}" />
-        <div class="form-group">
-            <label for="name">Name</label>
-            <textarea class="form-control" id="name" th:field="*{name}" ></textarea>
-            <ul>
-                <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control" id="description" th:field="*{description}" ></textarea>
-            <ul>
-                <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <label for="waterVolumeId">waterVolumeId</label>
-            <textarea class="form-control" id="waterVolumeId" th:field="*{waterVolumeId}" ></textarea>
-            <ul>
-                <li th:each="err : ${#fields.errors('waterVolumeId')}" th:text="${err}"></li>
-            </ul>
-        </div>
-        <div class="form-group">
-            <label for="waterIntervalId">waterIntervalId</label>
-            <textarea class="form-control" id="waterIntervalId" th:field="*{waterIntervalId}" ></textarea>
-            <ul>
-                <li th:each="err : ${#fields.errors('waterIntervalId')}" th:text="${err}"></li>
-            </ul>
-        </div>
-
-        <button type="submit" class="btn btn-default">Save</button>
-    </form>
+    <input type="hidden" th:field="*{id}" />
+    <div class="form-group">
+        <label for="name">Name</label>
+        <textarea class="form-control" id="name" th:field="*{name}" ></textarea>
+        <ul>
+            <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+        </ul>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" th:field="*{description}" ></textarea>
+        <ul>
+            <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+        </ul>
+    </div>
+    <div class="form-group">
+        <label for="wateringParametersId">wateringParameters</label>
+        <select id="wateringParametersId" th:field="*{wateringParametersId}">
+            <option th:each="parametr : ${wateringParameters}" th:value="${parametr.id}" th:text="${parametr.name}"></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="lightParameters">lightParameters</label>
+        <select id="lightParameters" th:field="*{lightId}">
+            <option th:each="parametr : ${lightParameters}" th:value="${parametr.id}" th:text="${parametr.name}"></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="co2Parameters">co2Parameters</label>
+        <select id="co2Parameters" th:field="*{co2Id}">
+            <option th:each="parametr : ${co2Parameters}" th:value="${parametr.id}" th:text="${parametr.name}"></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="temperatureParameters">temperatureParameters</label>
+        <select id="temperatureParameters" th:field="*{temperatureId}">
+            <option th:each="parametr : ${temperatureParameters}" th:value="${parametr.id}" th:text="${parametr.name}"></option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-default">Save</button>
+</form>
 
 </body>
 </html>

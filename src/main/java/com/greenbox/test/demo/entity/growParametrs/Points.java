@@ -11,8 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TemperaturePoints {
+public class Points {
     private Long id;
     private String name;
-    private List<Double> arrayOfTemperature;
+    private List<Double> array;
 }

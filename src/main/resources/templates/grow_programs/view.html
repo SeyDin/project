@@ -6,10 +6,13 @@
 </head>
 <body>
 
-<p>GrowProgram id:</p>   <p  th:text="${program.id}"/></td>
-<p>GrowProgram name:</p> <p  th:text="${program.name}"/></td>
-<p>GrowProgram description:</p>   <p  th:text="${program.description}"/></td>
-<p>water interval</p> <p  th:text="${program.waterIntervalId}"/></td>
-<p>water volume</p> <p  th:text="${program.waterVolumeId}"/></td>
+<p>GrowProgram id:</p>   <p  th:text="${grow_program.id}"></p>
+<p>GrowProgram name:</p> <p  th:text="${grow_program.name}"></p>
+<p>GrowProgram description:</p>   <p  th:text="${grow_program.description}"></p>
+<p>water interval</p> <p  th:text="${grow_program.wateringParametersId}"></p>
+<p>temperatureId</p> <p  th:text="${grow_program.temperatureId}"></p>
+<p>lightId</p> <p  th:text="${grow_program.lightId}"></p>
+<p>co2Id</p> <p  th:text="${grow_program.co2Id}"></p>
+
 </body>
 </html>

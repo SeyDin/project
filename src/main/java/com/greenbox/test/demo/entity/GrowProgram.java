@@ -22,15 +22,19 @@ public class GrowProgram {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "water_interval_id")
-    private Long waterIntervalId;
-
-    @Column(name = "water_volume_id")
-    private Long waterVolumeId;
+    @Column(name = "watering_parameters_id")
+    private Long wateringParametersId;
 
     @OneToMany
     @JoinColumn(name = "grow_program_id")
     private List<GreenBox> greenBoxList;
+
+    @Column(name = "co2_id")
+    private Long co2Id;
+    @Column(name = "light_id")
+    private Long lightId;
+    @Column(name = "temperature_id")
+    private Long temperatureId;
 
     @ManyToMany()
     @JoinTable(

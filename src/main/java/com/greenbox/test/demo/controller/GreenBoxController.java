@@ -5,6 +5,7 @@ import com.greenbox.test.demo.controller.response.ResourceNotFoundException;
 import com.greenbox.test.demo.entity.GreenBox;
 import com.greenbox.test.demo.entity.User;
 import com.greenbox.test.demo.repository.GreenBoxRepository;
+import com.greenbox.test.demo.service.GrowProgramService;
 import com.greenbox.test.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,11 +21,13 @@ public class GreenBoxController {
 
     private final UserService userService;
     private final GreenBoxRepository greenBoxRepository;
+    private final GrowProgramService growProgramService;
 
     @Autowired
-    public GreenBoxController(UserService userService, GreenBoxRepository greenBoxRepository) {
+    public GreenBoxController(UserService userService, GreenBoxRepository greenBoxRepository, GrowProgramService growProgramService) {
         this.userService = userService;
         this.greenBoxRepository = greenBoxRepository;
+        this.growProgramService = growProgramService;
     }
 
     @GetMapping
@@ -39,7 +42,8 @@ public class GreenBoxController {
     public String add(ModelMap modelMap) {
 
         User user = userService.getCurrentUser();
-
+        Long id = user.getId();
+        modelMap.addAttribute("growPrograms", growProgramService.readAll());
         modelMap.addAttribute("gb_form", new GreenBoxRegistrationForm());
         modelMap.addAttribute("currentUserName", user.getUsername());
 
