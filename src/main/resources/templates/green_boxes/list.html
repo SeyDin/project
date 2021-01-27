@@ -17,7 +17,7 @@
         <tbody>
         <tr th:each="greenBox : ${greenBoxes}">
             <td><p  th:text="${greenBox.id}"></p></td>
-            <td><a  th:href="@{${#httpServletRequest.requestURI} + ${greenBox.id}}" th:text="${greenBox.name}"></a></td>
+            <td><a  th:href="@{${#httpServletRequest.requestURI} +'/'+ ${greenBox.id}}" th:text="${greenBox.name}"></a></td>
             <td><p  th:text="${greenBox.userId}"></p></td>
             <td><p  th:text="${greenBox.growProgramId}"></p></td>
         </tr>
