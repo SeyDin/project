@@ -22,4 +22,4 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=976431
     volumes:
-      - "db-data:/var/lib/postgresql/data"
+      - ./host-folder/:/var/lib/postgresql/data/

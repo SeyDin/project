@@ -13,20 +13,33 @@ This is test
     document.addEventListener("DOMContentLoaded", function(){
         // Create liteChart.js Object
         let d = new liteChart("chart");
+        var xhr = new XMLHttpRequest();
+        var arr;
+        xhr.onreadystatechange = function() { // (3)
+            if (xhr.readyState != 4) return;
+                //alert(xhr.responseText.split(','));
+                arr = JSON.parse(xhr.responseText);
+                // Set labels
+                d.setLabels(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]);
 
-        // Set labels
-        d.setLabels(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]);
+                // Set legends and values
+                d.addLegend({"name": "Day circle", "stroke": "#CDDC39", "fill": "#fff", "values": arr});
 
-        // Set legends and values
-        d.addLegend({"name": "Day", "stroke": "#CDDC39", "fill": "#fff", "values": [100, 200, 450, 400, 500, 300, 700, 800, 601, 705, 604, 803]});
-        d.addLegend({"name": "Night", "stroke": "#3b95f7", "fill": "#fff", "values": [200, 150, 240, 180, 150, 240, 230, 300, 200, 150, 270, 200]});
+                // Inject chart into DOM object
+                let div = document.getElementById("your-id");
+                d.inject(div);
 
-        // Inject chart into DOM object
-        let div = document.getElementById("your-id");
-        d.inject(div);
-
-        // Draw
-        d.draw();
+                // Draw
+                d.draw();
+            if (xhr.status != 200) {
+                alert(xhr.status + ': ' + xhr.statusText);
+            } else {
+                //alert(xhr.responseText);
+            }
+        }
+        xhr.open('GET', 'http://localhost:8080/test_json', true);
+        xhr.setRequestHeader('Accept','application/json')
+        xhr.send(); // (1)
     });
 </script>
 

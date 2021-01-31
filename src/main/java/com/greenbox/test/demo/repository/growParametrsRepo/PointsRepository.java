@@ -67,7 +67,7 @@ public class PointsRepository {
         }
         Object [] objectArray = (Object []) obj;
         List<Double> arrayOfTemperature= new ArrayList<>();
-        for (int i=1; i < objectArray.length; i++) {
+        for (int i=0; i < objectArray.length; i++) {
             Double value = (Double) objectArray[i];
             arrayOfTemperature.add(value);
         }

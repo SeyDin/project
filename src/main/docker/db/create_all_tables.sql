@@ -226,7 +226,7 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.greenboxes
     OWNER to postgres;
-
+COMMIT;
 -- --------------data--------------- --
 
 insert into temperature_values (name, arr) values 
@@ -273,3 +273,5 @@ INSERT INTO greenboxes (name , user_id, grow_program_id) VALUES
 ('second', 1, 2),
 ('test_first', 2, 1),
 ('test_second', 2, 3);
+
+COMMIT;
