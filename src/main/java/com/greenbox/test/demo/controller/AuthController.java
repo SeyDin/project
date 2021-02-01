@@ -2,6 +2,7 @@ package com.greenbox.test.demo.controller;
 
 
 import com.greenbox.test.demo.controller.form.convert.UserRegistrationForm;
+import com.greenbox.test.demo.controller.valid.UserRegistrationFormValidator;
 import com.greenbox.test.demo.entity.GrowProgram;
 import com.greenbox.test.demo.entity.User;
 import com.greenbox.test.demo.service.GrowProgramService;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -24,22 +27,29 @@ public class AuthController {
 
     private final UserService userService;
     private final GrowProgramService growProgramService;
+    private final UserRegistrationFormValidator userRegistrationFormValidator;
 
     @Autowired
-    public AuthController(UserService userService, GrowProgramService growProgramService) {
+    public AuthController(UserService userService, GrowProgramService growProgramService, UserRegistrationFormValidator userRegistrationFormValidator) {
         this.userService = userService;
         this.growProgramService = growProgramService;
+        this.userRegistrationFormValidator = userRegistrationFormValidator;
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(userRegistrationFormValidator);
     }
 
     @GetMapping("/registration")
     public String registration(Model model) {
-        model.addAttribute("user", new UserRegistrationForm());
+        model.addAttribute("userRegistrationForm", new UserRegistrationForm());
         return "auth/registration";
     }
 
     @PostMapping("/registration")
     public String registration(
-            @Valid @ModelAttribute("userForm") UserRegistrationForm userRegistrationForm,
+            @Valid  @ModelAttribute("userRegistrationForm") UserRegistrationForm userRegistrationForm,
             BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
