@@ -32,9 +32,7 @@ public class UserRegistrationFormValidator implements Validator {
         if (Objects.nonNull(savedUser) && savedUser.getUsername().equals(userForm.getUsername())) {
             errors.rejectValue("username", "user.username.nonUnique");
         }
-        System.out.println();
         if (!userForm.getPassword().equals(userForm.getConfirmPassword())){
-            System.out.println("sasasasasasasasa");
             errors.rejectValue("confirmPassword", "user.confirmPassword.nonEquals");
         }
     }
