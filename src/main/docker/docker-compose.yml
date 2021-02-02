@@ -17,9 +17,10 @@ services:
 
   db:
     build: db/
+    restart: always
     container_name: db
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=976431
     volumes:
-      - ./host-folder/:/var/lib/postgresql/data/
+      - C:/aql:/var/lib/pgsql/data

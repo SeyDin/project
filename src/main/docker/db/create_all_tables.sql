@@ -1,3 +1,4 @@
+Begin;
 -- --------------sequences_for_authority--------------- --
 CREATE SEQUENCE public.role_id_sequence
     INCREMENT 50
@@ -273,5 +274,5 @@ INSERT INTO greenboxes (name , user_id, grow_program_id) VALUES
 ('second', 1, 2),
 ('test_first', 2, 1),
 ('test_second', 2, 3);
-
+End transaction;
 COMMIT;
