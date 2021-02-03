@@ -23,4 +23,4 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=976431
     volumes:
-      - C:/aql:/var/lib/pgsql/data
+      - ./:/var/lib/pgsql/data

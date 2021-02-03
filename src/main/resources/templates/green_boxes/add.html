@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
 <head>
     <meta charset="UTF-8">
     <title>Green box inc.</title>
 </head>
 <body>
+<div th:fragment="content">
     <form th:action="@{/green_boxes/add}" th:object="${gb_form}" method="POST">
         <!--<input type="hidden" th:field="*{id}" /> -->
 
@@ -25,6 +28,6 @@
 
         <button type="submit" class="btn btn-default">Save</button>
     </form>
-
+</div>
 </body>
 </html>

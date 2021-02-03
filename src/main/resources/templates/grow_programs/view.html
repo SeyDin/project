@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
 <head>
     <meta charset="UTF-8">
     <title>Green box inc.</title>
 </head>
 <body>
-
+<div th:fragment="content">
 <p>GrowProgram id:</p>   <p  th:text="${grow_program.id}"></p>
 <p>GrowProgram name:</p> <p  th:text="${grow_program.name}"></p>
 <p>GrowProgram description:</p>   <p  th:text="${grow_program.description}"></p>
@@ -13,6 +15,6 @@
 <p>temperatureId</p> <p  th:text="${grow_program.temperatureId}"></p>
 <p>lightId</p> <p  th:text="${grow_program.lightId}"></p>
 <p>co2Id</p> <p  th:text="${grow_program.co2Id}"></p>
-
+</div>
 </body>
 </html>

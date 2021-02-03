@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
 <head>
     <meta charset="UTF-8">
     <title>Green box inc.</title>
 </head>
 <body>
-
-<p>GreenBox user:</p> <p  th:text="${user.getUsername()}"/></td>
-<p>GreenBox id:</p>   <p  th:text="${greenBox.id}"/></td>
-<p>GreenBox name:</p> <p  th:text="${greenBox.name}"/></td>
-<p>GrowProgram:</p>   <p  th:text="${greenBox.getGrowProgramId()}"/></td>
-
+    <div th:fragment="content">
+    <p>GreenBox user:</p> <p  th:text="${user.getUsername()}"></p>
+    <p>GreenBox id:</p>   <p  th:text="${greenBox.id}"></p>
+    <p>GreenBox name:</p> <p  th:text="${greenBox.name}"></p>
+    <p>GrowProgram:</p>   <p  th:text="${greenBox.getGrowProgramId()}"></p>
+    </div>
 </body>
 </html>

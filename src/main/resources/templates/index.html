@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
 <head>
     <meta charset="UTF-8" />
     <title th:utext="${title}">..!..</title>
 </head>
 <body>
+<div th:fragment="content">
     <h1>Hello man</h1>
     <h2 th:utext="${message}">..!..</h2>
-<a href="/green_boxes">greenBoxes</a>
-<a href="/grow_programs">growPrograms</a>
+    <a href="/green_boxes">greenBoxes</a>
+    <a href="/grow_programs">growPrograms</a>
+</div>
 </body>
 </html>

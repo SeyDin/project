@@ -6,13 +6,11 @@
 <head>
     <title>Green box inc.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
     <link rel="stylesheet" type="text/css"
           href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 
     <link rel="stylesheet" type="text/css"
           th:href="@{/css/theme.css}" />
-
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -21,9 +19,6 @@
             <a class="navbar-brand" href="/">Home</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-            <ul sec:authorize="isAuthenticated()" class="nav navbar-nav">
-                <li><a href="/green_boxes/">green_boxes</a></li>
-            </ul>
             <form sec:authorize="isAuthenticated()" class="navbar-form navbar-right" th:action="@{/logout}" method="post">
                 <button type="submit" class="btn btn-link">Logout</button>
             </form>
@@ -34,10 +29,13 @@
                 <li><a th:href="@{/login}">Sign In</a></li>
                 <li><a th:href="@{/registration}">Sign Up</a></li>
             </ul>
+            <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+                <li><a href="/green_boxes">My green Boxes</a></li>
+                <li><a href="/grow_programs">Grow programs</a></li>
+            </ul>
         </div>
     </div>
 </nav>
-
 <div class="container">
     <div th:include="this :: content"></div>
 </div>
