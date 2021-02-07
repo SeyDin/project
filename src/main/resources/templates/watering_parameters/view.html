@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
+<head>
+    <meta charset="UTF-8">
+    <title>Green box inc.</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <form th:action="@{${#httpServletRequest.requestURI}}" th:object="${wateringParametersForm}" method="POST">
+            <h3>Watering parameter id:
+                <span  th:text="${wateringParameter.id}"></span>
+                <input type="hidden" name="Id" th:value="${wateringParameter.getId()}" />
+            </h3>
+            <h3>Name:
+                <span th:text="${wateringParameter.name}"></span>
+                <input type="text" name="name" th:value="${wateringParameter.getName()}">
+            </h3>
+            <h3>Volume of water (for one watering):
+                <span  th:text="${wateringParameter.getVolume() + ' ml'}"></span>
+                <input type="number" name="volume" th:value="${wateringParameter.getVolume()}">
+            </h3>
+            <h3>Interval between watering:
+                <span  th:text="${wateringParameter.getInterval() + 'min'}"></span>
+                <input type="number" name="interval" th:value="${wateringParameter.getInterval()}">
+            </h3>
+                <hr>
+            <button type="submit" class="btn btn-default">Save</button>
+            <h3>Current water volume per day
+                <span th:text="${24.0 * 60 / wateringParameter.getInterval() * wateringParameter.getVolume() + 'ml'}"></span>
+            </h3>
+        </form>
+    </div>
+</body>
+</html>
