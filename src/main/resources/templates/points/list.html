@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
+<head>
+    <meta charset="UTF-8">
+    <title>Green box inc.</title>
+</head>
+<body>
+<div th:fragment="content">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="points : ${pointsSet}">
+            <td><p  th:text="${points.id}"></p></td>
+            <td><a  th:href="@{${#httpServletRequest.requestURI} +'/'+ ${points.id}}" th:text="${points.name}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{${#httpServletRequest.requestURI} + '/add'}">
+        <button th:text="${'Create ' + type + ' array'}"></button>
+    </form>
+</div>
+</body>
+</html>

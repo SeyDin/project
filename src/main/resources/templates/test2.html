@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
+<head>
+    <meta charset="UTF-8">
+    <title>Testing page</title>
+
+</head>
+<body>
+    <div th:fragment="content">
+        <meta name="_csrf" content="${_csrf.token}"/>
+        <script>
+            function btnClick()
+            {
+                var array = new Array(24);
+                for (let i = 0; i < 24; i++) {
+                    array[i] = document.getElementById(i.toString()).value;
+                }
+                document.getElementById('ex1').innerHTML="<HR>"+ array +"<HR>";
+                var token = $("meta[name='_csrf']").attr("content");
+                alert(token);
+                let xhr = new XMLHttpRequest();
+                const url = "/test_json2";
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.setRequestHeader("x-csrf-token", token);
+                const data = JSON.stringify(array);
+                alert(data)
+                xhr.send(data);
+            }
+        </script>
+        <div id="ex1"></div>
+        <form th:action="@{/test3}" name="array" id="cheat_id">
+            <ul>
+                <li th:each="i : ${#numbers.sequence(0, 23)}" >
+                    <input  type="number" step="0.1" th:id="${i.toString()}" value="20" maxlength="4">
+                </li>
+            </ul>
+            <input type="button" name="bt" value="Submit"
+                   onClick="btnClick();">
+        </form>
+    </div>>
+</body>
+
+</html>

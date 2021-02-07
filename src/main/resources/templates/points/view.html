@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
+<head>
+    <meta charset="UTF-8">
+    <title>Testing page</title>
+</head>
+<body>
+<div th:fragment="content">
+    <h3 th:text="${type} + ' array name:'"></h3> <h3  th:text="${points.getName()}"></h3>
+    <div id="your-id" style="height: 600px;"></div>
+    <div id="ex1"></div>
+    <form th:action="@{${#httpServletRequest.requestURI}}" th:object="${points_form}" method="POST">
+        <input type="hidden" th:value="${points.getId()}" />
+        <input type="text" name="name" th:value="${points.getName()}">
+        <input  th:each="i : ${#numbers.sequence(0, 23)}" type="number" th:name="${'array[' + i.toString() + ']'}"  step="0.1" th:id="${i.toString()}" th:value="${points.getArray().get(i)}" maxlength="4">
+
+        <button type="submit" class="btn btn-default">Save</button>
+    </form>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            // Create liteChart.js Object
+            let d = new liteChart("chart");
+            var arr = [];
+            let url = window.location.href;
+            url = url.replace('http://localhost:8080/', 'http://localhost:8080/rest/');
+            if (!url.endsWith('add') && !url.endsWith('add?')) {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState != 4) return;
+                    arr = JSON.parse(xhr.responseText);
+                    d.setLabels(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]);
+                    d.addLegend({"name": "Day circle", "stroke": "#CDDC39", "fill": "#fff", "values": arr});
+                    let div = document.getElementById("your-id");
+                    d.inject(div);
+                    d.draw();
+                    if (xhr.status != 200) {
+                        alert(xhr.status + ': ' + xhr.statusText);
+                    }
+                }
+                xhr.open('GET', url, true);
+                xhr.setRequestHeader('Accept','application/json')
+                xhr.send();
+            } else {
+                for (let i = 0; i < 24; i++) {
+                    arr.push(20.0)
+                }
+                d.setLabels(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]);
+                d.addLegend({"name": "Day circle", "stroke": "#CDDC39", "fill": "#fff", "values": arr});
+                let div = document.getElementById("your-id");
+                d.inject(div);
+                d.draw();
+            }
+
+
+
+        });
+    </script>
+
+    <script src="/js/lib/liteChart.min.js"></script>
+</div>
+</body>
+
+</html>

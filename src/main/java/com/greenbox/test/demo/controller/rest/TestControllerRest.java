@@ -1,14 +1,16 @@
-package com.greenbox.test.demo.controller.response;
+package com.greenbox.test.demo.controller.rest;
 
 import com.greenbox.test.demo.entity.growParametrs.Points;
 import com.greenbox.test.demo.service.growParametrsServices.Co2Service;
 import com.greenbox.test.demo.service.growParametrsServices.TemperaturePointsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -26,6 +28,18 @@ public class TestControllerRest {
     public List<Double> test_json (ModelMap modelMap){
         Points tPoints = temperaturePointsService.read(1);
         return tPoints.getArray();
+    }
+
+    @GetMapping(value ={"/test_json2"})
+    public List<Double> test_json2 (ModelMap modelMap){
+        Points tPoints = temperaturePointsService.read(1);
+        return tPoints.getArray();
+    }
+
+    @PostMapping("/test_json2")
+    public ResponseEntity<?>  input(@RequestBody List <Double> stringList){
+        System.out.println(stringList.get(0));
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
 
