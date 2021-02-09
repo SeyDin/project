@@ -20,10 +20,11 @@
             </ul>
         </div>
         <div class="form-group">
-            <label for="greenBoxes">greenBoxes</label>
+            <label for="greenBoxes">Grow Program </label>
             <select id="greenBoxes" th:field="*{growProgramId}">
                 <option th:each="program : ${growPrograms}" th:value="${program.id}" th:text="${program.name}"></option>
             </select>
+            <a href="/grow_programs/add" > Create new grow program</a>
         </div>
 
         <button type="submit" class="btn btn-default">Save</button>
