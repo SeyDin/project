@@ -3,6 +3,7 @@ package com.greenbox.test.demo.controller;
 import com.greenbox.test.demo.controller.form.convert.GreenBoxRegistrationForm;
 import com.greenbox.test.demo.controller.response.ResourceNotFoundException;
 import com.greenbox.test.demo.entity.GreenBox;
+import com.greenbox.test.demo.entity.GrowProgram;
 import com.greenbox.test.demo.entity.User;
 import com.greenbox.test.demo.repository.GreenBoxRepository;
 import com.greenbox.test.demo.service.GrowProgramService;
@@ -14,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/green_boxes")
@@ -34,7 +37,14 @@ public class GreenBoxController {
     public String list(ModelMap modelMap){
         User user = userService.getCurrentUser();
         Long id =  user.getId();
-        modelMap.addAttribute("greenBoxes", greenBoxRepository.findAllByUserId(id));
+        List<GreenBox> greenBoxList = greenBoxRepository.findAllByUserId(id);
+        List<GrowProgram> growProgramsList = new ArrayList<>();
+        for (GreenBox greenBox:greenBoxList
+             ) {
+            growProgramsList.add(growProgramService.read(greenBox.getGrowProgramId()));
+        }
+        modelMap.addAttribute("growPrograms", growProgramsList);
+        modelMap.addAttribute("greenBoxes", greenBoxList);
         return "green_boxes/list";
     }
 
