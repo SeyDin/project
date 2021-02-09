@@ -8,13 +8,108 @@
 </head>
 <body>
 <div th:fragment="content">
-<p>GrowProgram id:</p>   <p  th:text="${grow_program.id}"></p>
-<p>GrowProgram name:</p> <p  th:text="${grow_program.name}"></p>
-<p>GrowProgram description:</p>   <p  th:text="${grow_program.description}"></p>
-<p>water interval</p> <p  th:text="${grow_program.wateringParametersId}"></p>
-<p>temperatureId</p> <p  th:text="${grow_program.temperatureId}"></p>
-<p>lightId</p> <p  th:text="${grow_program.lightId}"></p>
-<p>co2Id</p> <p  th:text="${grow_program.co2Id}"></p>
+
+    <style>
+        .hr-shelf {
+            margin: -30px auto 10px;
+            padding: 0;
+            height: 50px;
+            border: none;
+            border-bottom: 1px solid #1f1209;
+            box-shadow: 0 20px 20px -20px #333;
+            width: 95%;
+        }
+    </style>
+    <h3  th:text="'GrowProgram id: ' + ${grow_program.id}" th:id="temp" th:name="${grow_program.getTemperatureId()}"></h3>
+    <h3  th:text="'GrowProgram name: ' + ${grow_program.name}" th:id="light" th:name="${grow_program.getLightId()}"></h3>
+    <h3  th:text="'GrowProgram description: ' + ${grow_program.description}" th:id="co2" th:name="${grow_program.getCo2Id()}"></h3>
+    <h3> Watering cycle:  <a th:text="${wateringParameters.getName()}" th:href="'/watering_parameters/' + ${grow_program.getWateringParametersId()}"></a></h3>
+    <h3  th:text="'Water volume: ' + ${wateringParameters.getVolume() + ' ml'}" ></h3>
+    <h3  th:text="'Interval between watering: ' + ${wateringParameters.getInterval() + 'min'}"></h3>
+    <h3  th:text="'Current water volume per day: ' + ${24.0 * 60 / wateringParameters.getInterval() * wateringParameters.getVolume() + 'ml'}"></h3>
+    <hr class="hr-shelf">
+    <h3> Temperature cycle: <a th:text="${temperatureParameters.getName()}" th:href="'/points/temperature/' + ${grow_program.getTemperatureId()}"></a></h3>
+    <div id="temperatureParameters" style="height: 400px;"></div>
+    <hr class="hr-shelf">
+    <h3> Light cycle: <a th:text="${lightParameters.getName()}" th:href="'/points/temperature/' + ${grow_program.getLightId()}"></a></h3>
+    <div id="lightParameters" style="height: 400px;"></div>
+    <hr class="hr-shelf">
+    <h3> CO2 cycle: <a th:text="${co2Parameters.getName()}" th:href="'/points/temperature/' + ${grow_program.getCo2Id()}"></a></h3>
+    <div id="co2Parameters" style="height: 400px;"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            // Create liteChart.js Object
+            let d = new liteChart("chart");
+            var arr = [];
+            let url = 'http://localhost:8080/rest/points/' + 'temperature/' + document.getElementById('temp').getAttribute('name');
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState != 4) return;
+                arr = JSON.parse(xhr.responseText);
+                d.setLabels(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]);
+                d.addLegend({"name": "Temperature cycle", "stroke": "#da2b3a", "fill": "#fff", "values": arr});
+                let div = document.getElementById("temperatureParameters");
+                d.inject(div);
+                d.draw();
+                if (xhr.status != 200) {
+                    alert(xhr.status + ': ' + xhr.statusText);
+                }
+            }
+            xhr.open('GET', url, true);
+            xhr.setRequestHeader('Accept','application/json')
+            xhr.send();
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            // Create liteChart.js Object
+            let d = new liteChart("chart");
+            var arr = [];
+            let url = 'http://localhost:8080/rest/points/' + 'light/' + document.getElementById('light').getAttribute('name');
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState != 4) return;
+                arr = JSON.parse(xhr.responseText);
+                d.setLabels(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]);
+                d.addLegend({"name": "Light cycle", "stroke": "#04a7fc", "fill": "#fff", "values": arr});
+                let div = document.getElementById("lightParameters");
+                d.inject(div);
+                d.draw();
+                if (xhr.status != 200) {
+                    alert(xhr.status + ': ' + xhr.statusText);
+                }
+            }
+            xhr.open('GET', url, true);
+            xhr.setRequestHeader('Accept','application/json')
+            xhr.send();
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            // Create liteChart.js Object
+            let d = new liteChart("chart");
+            var arr = [];
+            let url = 'http://localhost:8080/rest/points/' + 'co2/' + document.getElementById('co2').getAttribute('name');
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState != 4) return;
+                arr = JSON.parse(xhr.responseText);
+                d.setLabels(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]);
+                d.addLegend({"name": "CO2 cycle", "stroke": "#03d60c", "fill": "#fff", "values": arr});
+                let div = document.getElementById("co2Parameters");
+                d.inject(div);
+                d.draw();
+                if (xhr.status != 200) {
+                    alert(xhr.status + ': ' + xhr.statusText);
+                }
+            }
+            xhr.open('GET', url, true);
+            xhr.setRequestHeader('Accept','application/json')
+            xhr.send();
+        });
+    </script>
+
+    <script src="/js/lib/liteChart.min.js"></script>
 </div>
 </body>
 </html>

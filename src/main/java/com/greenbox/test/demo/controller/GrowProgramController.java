@@ -52,6 +52,14 @@ public class GrowProgramController {
     public String view(@PathVariable Long id, ModelMap modelMap){
         GrowProgram growProgram = growProgramService.read(id);
         modelMap.addAttribute("grow_program", growProgram);
+        final Points lightParameters = lightPointsService.read(growProgram.getLightId());
+        final Points temperatureParameters = temperaturePointsService.read(growProgram.getTemperatureId());
+        final Points co2Parameters = co2Service.read(growProgram.getLightId());
+        final WateringParameters wateringParameters = wateringParametersService.read(growProgram.getWateringParametersId());
+        modelMap.addAttribute("lightParameters", lightParameters);
+        modelMap.addAttribute("temperatureParameters", temperatureParameters);
+        modelMap.addAttribute("co2Parameters", co2Parameters);
+        modelMap.addAttribute("wateringParameters", wateringParameters);
         return "grow_programs/view";
     }
     @GetMapping("/add")
