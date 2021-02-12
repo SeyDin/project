@@ -27,6 +27,9 @@
     <h3  th:text="'Water volume: ' + ${wateringParameters.getVolume() + ' ml'}" ></h3>
     <h3  th:text="'Interval between watering: ' + ${wateringParameters.getInterval() + 'min'}"></h3>
     <h3  th:text="'Current water volume per day: ' + ${24.0 * 60 / wateringParameters.getInterval() * wateringParameters.getVolume() + 'ml'}"></h3>
+    <form th:action="@{${#httpServletRequest.requestURI} + '/edit'}">
+        <button>Edit this GrowProgram</button>
+    </form>
     <hr class="hr-shelf">
     <h3> Temperature cycle: <a th:text="${temperatureParameters.getName()}" th:href="'/points/temperature/' + ${grow_program.getTemperatureId()}"></a></h3>
     <div id="temperatureParameters" style="height: 400px;"></div>
