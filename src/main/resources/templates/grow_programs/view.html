@@ -23,7 +23,7 @@
     <h3  th:text="'GrowProgram id: ' + ${grow_program.id}" th:id="temp" th:name="${grow_program.getTemperatureId()}"></h3>
     <h3  th:text="'GrowProgram name: ' + ${grow_program.name}" th:id="light" th:name="${grow_program.getLightId()}"></h3>
     <h3  th:text="'GrowProgram description: ' + ${grow_program.description}" th:id="co2" th:name="${grow_program.getCo2Id()}"></h3>
-    <h3> Watering cycle:  <a th:text="${wateringParameters.getName()}" th:href="'/watering_parameters/' + ${grow_program.getWateringParametersId()}"></a></h3>
+    <h3> Watering cycle:  <a th:text="${wateringParameters.getName()}" th:href="'/watering_parameters/' + ${grow_program.getWateringParameters().getId()}"></a></h3>
     <h3  th:text="'Water volume: ' + ${wateringParameters.getVolume() + ' ml'}" ></h3>
     <h3  th:text="'Interval between watering: ' + ${wateringParameters.getInterval() + 'min'}"></h3>
     <h3  th:text="'Current water volume per day: ' + ${24.0 * 60 / wateringParameters.getInterval() * wateringParameters.getVolume() + 'ml'}"></h3>

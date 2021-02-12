@@ -25,7 +25,7 @@
             <td><p  th:text="${grow_program.id}"></p></td>
             <td><a th:href="@{${#httpServletRequest.requestURI} + '/' + ${grow_program.id}}"   th:text="${grow_program.name}"></a></td>
             <td><p  th:text="${grow_program.description}"></p></td>
-            <td><p  th:text="${grow_program.wateringParametersId}"></p></td>
+            <td><p  th:text="${grow_program.wateringParameters.getId()}"></p></td>
             <td><p  th:text="${grow_program.temperatureId}"></p></td>
             <td><p  th:text="${grow_program.lightId}"></p></td>
             <td><p  th:text="${grow_program.co2Id}"></p></td>

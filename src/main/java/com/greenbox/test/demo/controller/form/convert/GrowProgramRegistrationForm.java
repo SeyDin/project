@@ -1,5 +1,6 @@
 package com.greenbox.test.demo.controller.form.convert;
 
+import com.greenbox.test.demo.entity.User;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -20,5 +21,6 @@ public class GrowProgramRegistrationForm {
     private Long co2Id;
     private Long lightId;
     private Long temperatureId;
+    private User userCreator;
 
 }

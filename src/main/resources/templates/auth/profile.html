@@ -16,16 +16,15 @@
                 <th>id</th>
                 <th>name</th>
                 <th>description</th>
-                <th>waterIntervalId</th>
-                <th>waterVolumeId</th>
+                <th>Watering Parameters</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="grow_program : ${growPrograms}">
-                <td><p  th:text="${grow_program.id}"></p></td>
-                <td><p  th:text="${grow_program.name}"></p></td>
-                <td><p  th:text="${grow_program.description}"></p></td>
-                <td><p  th:text="${grow_program.wateringParametersId}"></p></td>
+                <td><h3  th:text="${grow_program.id}"></h3></td>
+                <td><h3  th:text="${grow_program.name}"></h3></td>
+                <td><h3  th:text="${grow_program.description}"></h3></td>
+                <td><h3  th:text="${grow_program.wateringParameters.getName()}"></h3></td>
             </tr>
             </tbody>
         </table>

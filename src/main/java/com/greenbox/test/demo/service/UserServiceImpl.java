@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("Can't find user with username " + username);
         }
-        return user; // так что он возвращает? UserDetails или User? или проксю мб?
+        return user;
     }
 
     @Override

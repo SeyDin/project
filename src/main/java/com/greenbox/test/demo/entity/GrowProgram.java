@@ -1,13 +1,12 @@
 package com.greenbox.test.demo.entity;
 
+import com.greenbox.test.demo.entity.growParametrs.WateringParameters;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
-@Entity
-@Table(name = "grow_programs")
+@Entity(name = "grow_programs")
 @Data
 public class GrowProgram {
 
@@ -16,17 +15,15 @@ public class GrowProgram {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
     private String description;
 
-    @Column(name = "watering_parameters_id")
-    private Long wateringParametersId;
+    @ManyToOne
+    @JoinColumn(name = "watering_parameters_id")
+    private WateringParameters wateringParameters;
 
-    @OneToMany
-    @JoinColumn(name = "grow_program_id")
+    @OneToMany(mappedBy = "growProgram")
     private List<GreenBox> greenBoxList;
 
     @Column(name = "co2_id")
@@ -36,11 +33,8 @@ public class GrowProgram {
     @Column(name = "temperature_id")
     private Long temperatureId;
 
-    @ManyToMany()
-    @JoinTable(
-            name = "FAVORITE_PROGRAMS_ASSIGNMENTS",
-            joinColumns = @JoinColumn(name = "grow_program_id", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "ID"))
-    private Set<User> users;
+    @ManyToOne
+    @JoinColumn(name = "user_creator_id")
+    private User userCreator;
 
 }

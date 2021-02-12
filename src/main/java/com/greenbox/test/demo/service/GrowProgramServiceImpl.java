@@ -6,6 +6,7 @@ import com.greenbox.test.demo.repository.GrowProgramRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -27,19 +28,8 @@ public class GrowProgramServiceImpl implements GrowProgramService{
     }
 
     @Override
-    public GrowProgram read(Long id) {
-        return growProgramRepository.getOne(id);
-    }
-
-    @Override
-    public boolean update(GrowProgram growProgram, Long id) {
-        if (growProgramRepository.existsById(id)) {
-            growProgram.setId(id);
-            growProgramRepository.save(growProgram);
-            return true;
-        }
-
-        return false;
+    public Optional<GrowProgram> read(Long id) {
+        return growProgramRepository.findById(id);
     }
 
     @Override
@@ -53,7 +43,7 @@ public class GrowProgramServiceImpl implements GrowProgramService{
 
     @Override
     public List<GrowProgram> findFavoritesProgramsForUser(User user) {
-        return growProgramRepository.findAllByUsers(user);
+        return growProgramRepository.findAllByUserCreator(user);
     }
 
 }

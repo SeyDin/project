@@ -4,8 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "greenboxes")
+@Entity(name = "greenboxes")
 @Data
 public class GreenBox {
 
@@ -17,10 +16,12 @@ public class GreenBox {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "grow_program_id")
-    private Long growProgramId;
+    @ManyToOne
+    @JoinColumn(name = "grow_program_id")
+    private GrowProgram growProgram;
 
 }

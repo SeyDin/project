@@ -10,6 +10,6 @@ import java.util.Set;
 
 public interface GrowProgramRepository extends JpaRepository<GrowProgram, Long> {
     List<GrowProgram> findAll();
-    List<GrowProgram> findAllByUsers(User user);
+    List<GrowProgram> findAllByUserCreator(User user);
 
 }
