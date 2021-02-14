@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -39,15 +40,12 @@ public class GreenBoxController {
         User user = userService.getCurrentUser();
         Long id =  user.getId();
         List<GreenBox> greenBoxList = greenBoxRepository.findAllByUserId(id);
-        if (greenBoxList.size() == 0){
-            GreenBox greenBox = new GreenBox();
-            greenBox.setName("You have no any box");
-            greenBoxList.add(greenBox);
-        }
         List<GrowProgram> growProgramsList = new ArrayList<>();
-        for (GreenBox greenBox:greenBoxList
-             ) {
-            growProgramsList.add(growProgramService.read(greenBox.getGrowProgram().getId()).orElseThrow(ResourceNotFoundException::new));
+        if (greenBoxList.size() != 0){
+            for (GreenBox greenBox : greenBoxList
+            ) {
+                growProgramsList.add(growProgramService.read(greenBox.getGrowProgram().getId()).orElseThrow(ResourceNotFoundException::new));
+            }
         }
         modelMap.addAttribute("growPrograms", growProgramsList);
         modelMap.addAttribute("greenBoxes", greenBoxList);
@@ -58,10 +56,9 @@ public class GreenBoxController {
     public String add(ModelMap modelMap) {
 
         User user = userService.getCurrentUser();
-        Long id = user.getId();
         modelMap.addAttribute("growPrograms", growProgramService.readAll());
         modelMap.addAttribute("gb_form", new GreenBoxRegistrationForm());
-        modelMap.addAttribute("currentUserName", user.getUsername());
+        //modelMap.addAttribute("currentUserName", user.getUsername());
 
         return "green_boxes/add";
     }
@@ -73,12 +70,21 @@ public class GreenBoxController {
             return "green_boxes/add";
         }
 
+        User currentUser = userService.getCurrentUser();
+        if (Objects.nonNull(greenBoxRegistrationForm.getId())) {
+            GreenBox read = greenBoxRepository.findById(greenBoxRegistrationForm.getId()).orElseThrow(ResourceNotFoundException::new);
+            User userCreator = read.getUser();
+            if (!currentUser.equals(userCreator)) {
+                return "error/403";
+            }
+        }
         GreenBox greenBox = new GreenBox();
+        greenBox.setId(greenBoxRegistrationForm.getId());
         greenBox.setName(greenBoxRegistrationForm.getName());
-        Optional<GrowProgram> growProgram = growProgramService.read(greenBoxRegistrationForm.getGrowProgramId());
-        greenBox.setGrowProgram(growProgram.orElseThrow(ResourceNotFoundException::new));
-        User user = userService.getCurrentUser();
-        greenBox.setUser(user);
+        greenBox.setGrowProgram(growProgramService.read(greenBoxRegistrationForm.getGrowProgramId()).orElseThrow(ResourceNotFoundException::new));
+        greenBox.setUser(currentUser);
+        System.out.println(greenBox.getId());
+        System.out.println(greenBox.getName());
         greenBoxRepository.save(greenBox);
 
         return "redirect:/green_boxes";
@@ -92,4 +98,18 @@ public class GreenBoxController {
         modelMap.addAttribute("greenBox", greenBox);
         return "green_boxes/view";
     }
+
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable Long id, ModelMap modelMap) {
+        GreenBox greenBox = greenBoxRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+        GreenBoxRegistrationForm greenBoxRegistrationForm = new GreenBoxRegistrationForm();
+        greenBoxRegistrationForm.setId(id);
+        greenBoxRegistrationForm.setName(greenBox.getName());
+        greenBoxRegistrationForm.setGrowProgramId(greenBox.getGrowProgram().getId());
+        modelMap.addAttribute("growPrograms", growProgramService.readAll());
+        modelMap.addAttribute("gb_form", greenBoxRegistrationForm);
+        return "green_boxes/add";
+    }
+
+
 }

@@ -8,10 +8,15 @@
 </head>
 <body>
     <div th:fragment="content">
-    <p>GreenBox user:</p> <p  th:text="${user.getUsername()}"></p>
-    <p>GreenBox id:</p>   <p  th:text="${greenBox.id}"></p>
-    <p>GreenBox name:</p> <p  th:text="${greenBox.name}"></p>
-    <p>GrowProgram:</p>   <p  th:text="${greenBox.getGrowProgram().getId()}"></p>
+    <h3>GreenBox user:</h3> <h3  th:text="${user.getUsername()}"></h3>
+    <h3>GreenBox id:</h3>   <h3  th:text="${greenBox.id}"></h3>
+    <h3>GreenBox name:</h3> <h3  th:text="${greenBox.name}"></h3>
+    <h3>GrowProgram:
+        <a  th:href="'/grow_programs/'+ ${greenBox.getGrowProgram().getId()}" th:text="${greenBox.getGrowProgram().getName()}"></a>
+    </h3>
+    <form th:action="@{${#httpServletRequest.requestURI} + '/edit'}">
+        <button>Edit this GrowProgram</button>
+    </form>
     </div>
 </body>
 </html>

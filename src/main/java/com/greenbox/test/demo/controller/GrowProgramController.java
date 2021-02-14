@@ -95,16 +95,10 @@ public class GrowProgramController {
             return "grow_programs/add";
         }
         User currentUser = userService.getCurrentUser();
-        System.out.println("curUserId = " + currentUser.getId());
-        System.out.println("Objects.nonNull(growProgramRegistrationForm.getId()) = " + Objects.nonNull(growProgramRegistrationForm.getId()));
         if (Objects.nonNull(growProgramRegistrationForm.getId())) {
             GrowProgram read = growProgramService.read(growProgramRegistrationForm.getId()).orElseThrow(ResourceNotFoundException::new);
             User userCreator = read.getUserCreator();
-            System.out.println("userCreatorId = " + userCreator.getId());
             if (!currentUser.equals(userCreator)) {
-                System.out.println("userCreator" + userCreator);
-                System.out.println("currentUser" + currentUser);
-                System.out.println("!currentUser.equals(userCreator)" + !currentUser.equals(userCreator));
                 return "error/403";
             }
         }

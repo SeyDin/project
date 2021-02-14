@@ -18,10 +18,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="i : ${#numbers.sequence(0, greenBoxes.size()-1)}">
-            <td><p  th:text="${greenBoxes[__${i}__].getId()}"></p></td>
-            <td><a  th:href="@{${#httpServletRequest.requestURI} +'/'+ ${greenBoxes[__${i}__].id}}" th:text="${greenBoxes[__${i}__].name}"></a></td>
-            <td><a  th:text="${growPrograms[__${i}__].getName()}" th:href="'/grow_programs/' + ${growPrograms[__${i}__].getId()}"></a></td>
+        <tr th:if="${greenBoxes.size() > 0}" th:each="i : ${#numbers.sequence(0, greenBoxes.size()-1)}">
+            <td><p th:text="${greenBoxes[__${i}__].getId()}"></p></td>
+            <td><a th:href="@{${#httpServletRequest.requestURI} +'/'+ ${greenBoxes[__${i}__].id}}" th:text="${greenBoxes[__${i}__].name}"></a></td>
+            <td><a th:text="${growPrograms[__${i}__].getName()}" th:href="'/grow_programs/' + ${growPrograms[__${i}__].getId()}"></a></td>
         </tr>
         </tbody>
     </table>
