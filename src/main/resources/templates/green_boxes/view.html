@@ -14,8 +14,11 @@
     <h3>GrowProgram:
         <a  th:href="'/grow_programs/'+ ${greenBox.getGrowProgram().getId()}" th:text="${greenBox.getGrowProgram().getName()}"></a>
     </h3>
-    <form th:action="@{${#httpServletRequest.requestURI} + '/edit'}">
+    <form method="get" th:action="@{${#httpServletRequest.requestURI} + '/edit'}">
         <button>Edit this GreenBox</button>
+    </form>
+    <form method="post" th:action="@{${#httpServletRequest.requestURI} + '/delete'}">
+        <button>Delete this GreenBox</button>
     </form>
     </div>
 </body>

@@ -134,5 +134,17 @@ public class GreenBoxController {
         return "green_boxes/add";
     }
 
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Long id){
+        User currentUser = userService.getCurrentUser();
+        GreenBox read = greenBoxRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+        User userCreator = read.getUser();
+        if (!currentUser.equals(userCreator)) {
+            return "error/403";
+        }
+        greenBoxRepository.delete(read);
+        return "redirect:/green_boxes";
+    }
+
 
 }

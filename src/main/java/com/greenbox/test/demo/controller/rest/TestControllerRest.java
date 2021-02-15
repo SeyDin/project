@@ -36,9 +36,9 @@ public class TestControllerRest {
         return tPoints.getArray();
     }
 
-    @PostMapping("/test_json2")
-    public ResponseEntity<?>  input(@RequestBody List <Double> stringList){
-        System.out.println(stringList.get(0));
+    @PostMapping(value = "/api/growbox/uploadconfig", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?>  input(@RequestBody String stringList){
+        System.out.println(stringList);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
