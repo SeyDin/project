@@ -31,24 +31,28 @@
                 <select id="wateringParametersId" th:field="*{wateringParametersId}">
                     <option th:each="parametr : ${wateringParameters}" th:value="${parametr.id}" th:text="${parametr.name}"></option>
                 </select>
+                <a href="/watering_parameters/add" > Create new watering parameters</a>
             </div>
             <div class="form-group">
                 <label for="lightParameters">lightParameters</label>
                 <select id="lightParameters" th:field="*{lightId}">
                     <option th:each="parametr : ${lightParameters}" th:value="${parametr.id}" th:text="${parametr.name}"></option>
                 </select>
+                <a href="/points/light/add" > Create new light parameters</a>
             </div>
             <div class="form-group">
                 <label for="co2Parameters">co2Parameters</label>
                 <select id="co2Parameters" th:field="*{co2Id}">
                     <option th:each="parametr : ${co2Parameters}" th:value="${parametr.id}" th:text="${parametr.name}"></option>
                 </select>
+                <a href="/points/co2/add" > Create new co2 parameters</a>
             </div>
             <div class="form-group">
                 <label for="temperatureParameters">temperatureParameters</label>
                 <select id="temperatureParameters" th:field="*{temperatureId}">
                     <option th:each="parametr : ${temperatureParameters}" th:value="${parametr.id}" th:text="${parametr.name}"></option>
                 </select>
+                <a href="/points/temperature/add" > Create new temperature parameters</a>
             </div>
             <button type="submit" class="btn btn-default">Save</button>
         </form>

@@ -25,10 +25,18 @@
             <td><p  th:text="${grow_program.id}"></p></td>
             <td><a th:href="@{${#httpServletRequest.requestURI} + '/' + ${grow_program.id}}"   th:text="${grow_program.name}"></a></td>
             <td><p  th:text="${grow_program.description}"></p></td>
-            <td><p  th:text="${grow_program.wateringParameters.getId()}"></p></td>
-            <td><p  th:text="${grow_program.temperatureId}"></p></td>
-            <td><p  th:text="${grow_program.lightId}"></p></td>
-            <td><p  th:text="${grow_program.co2Id}"></p></td>
+            <td>
+                <p>
+                    <a th:href="${'/watering_parameters/' + grow_program.wateringParameters.getId()}"
+                      th:text="${grow_program.wateringParameters.getName()}"></a>
+                </p>
+            </td>
+            <td><p><a  th:href="${'/points/temperature/' + map.get(grow_program.getId()).get(0).getId()}"
+                       th:text="${map.get(grow_program.getId()).get(0).getName()}"></a><p></td>
+            <td><p><a  th:href="${'/points/light/' + map.get(grow_program.getId()).get(1).getId()}"
+                       th:text="${map.get(grow_program.getId()).get(1).getName()}"></a><p></td>
+            <td><p><a  th:href="${'/points/co2/' + map.get(grow_program.getId()).get(2).getId()}"
+                       th:text="${map.get(grow_program.getId()).get(2).getName()}"></a><p></td>
         </tr>
         </tbody>
     </table>

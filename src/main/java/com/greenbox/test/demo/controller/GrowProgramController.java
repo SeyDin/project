@@ -54,6 +54,17 @@ public class GrowProgramController {
         List<GrowProgram> growPrograms = growProgramService.readAll();
         growPrograms.sort(Comparator.comparing(GrowProgram::getId));
         modelMap.addAttribute("growPrograms", growPrograms);
+        Map<Long, List<Points>> integerListHashMap = new HashMap<>();
+        for (GrowProgram growProgram:growPrograms
+             ) {
+            List<Points> pointsList = new ArrayList<>();
+            pointsList.add(temperaturePointsService.read(growProgram.getTemperatureId()));
+            pointsList.add(lightPointsService.read(growProgram.getLightId()));
+            pointsList.add(co2Service.read(growProgram.getCo2Id()));
+
+            integerListHashMap.put(growProgram.getId(), pointsList);
+        }
+        modelMap.addAttribute("map", integerListHashMap);
         return "grow_programs/list";
     }
 
