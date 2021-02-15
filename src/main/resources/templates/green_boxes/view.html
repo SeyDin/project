@@ -15,7 +15,7 @@
         <a  th:href="'/grow_programs/'+ ${greenBox.getGrowProgram().getId()}" th:text="${greenBox.getGrowProgram().getName()}"></a>
     </h3>
     <form th:action="@{${#httpServletRequest.requestURI} + '/edit'}">
-        <button>Edit this GrowProgram</button>
+        <button>Edit this GreenBox</button>
     </form>
     </div>
 </body>

@@ -4,21 +4,25 @@ import com.greenbox.test.demo.controller.form.convert.GreenBoxRegistrationForm;
 import com.greenbox.test.demo.controller.response.ResourceNotFoundException;
 import com.greenbox.test.demo.entity.GreenBox;
 import com.greenbox.test.demo.entity.GrowProgram;
+import com.greenbox.test.demo.entity.RestEntityForBox;
 import com.greenbox.test.demo.entity.User;
 import com.greenbox.test.demo.repository.GreenBoxRepository;
 import com.greenbox.test.demo.service.GrowProgramService;
 import com.greenbox.test.demo.service.UserService;
+import com.greenbox.test.demo.service.growParametrsServices.Co2Service;
+import com.greenbox.test.demo.service.growParametrsServices.LightPointsService;
+import com.greenbox.test.demo.service.growParametrsServices.TemperaturePointsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/green_boxes")
@@ -27,13 +31,22 @@ public class GreenBoxController {
     private final UserService userService;
     private final GreenBoxRepository greenBoxRepository;
     private final GrowProgramService growProgramService;
+    private final TemperaturePointsService temperaturePointsService;
+    private final Co2Service co2Service;
+    private final LightPointsService lightPointsService;
 
     @Autowired
-    public GreenBoxController(UserService userService, GreenBoxRepository greenBoxRepository, GrowProgramService growProgramService) {
+    public GreenBoxController(UserService userService, GreenBoxRepository greenBoxRepository,
+                              GrowProgramService growProgramService, TemperaturePointsService temperaturePointsService,
+                              Co2Service co2Service, LightPointsService lightPointsService) {
         this.userService = userService;
         this.greenBoxRepository = greenBoxRepository;
         this.growProgramService = growProgramService;
+        this.temperaturePointsService = temperaturePointsService;
+        this.co2Service = co2Service;
+        this.lightPointsService = lightPointsService;
     }
+
 
     @GetMapping
     public String list(ModelMap modelMap){
@@ -83,10 +96,20 @@ public class GreenBoxController {
         greenBox.setName(greenBoxRegistrationForm.getName());
         greenBox.setGrowProgram(growProgramService.read(greenBoxRegistrationForm.getGrowProgramId()).orElseThrow(ResourceNotFoundException::new));
         greenBox.setUser(currentUser);
-        System.out.println(greenBox.getId());
-        System.out.println(greenBox.getName());
+
         greenBoxRepository.save(greenBox);
 
+        //Sending data
+
+        GrowProgram growProgram = greenBox.getGrowProgram();
+        RestEntityForBox restEntityForBox = new RestEntityForBox();
+        restEntityForBox.setCo2(co2Service.read(growProgram.getCo2Id()).getArray());
+        restEntityForBox.setLight(lightPointsService.read(growProgram.getLightId()).getArray());
+        restEntityForBox.setTemperature(temperaturePointsService.read(growProgram.getTemperatureId()).getArray());
+
+        final RestTemplate restTemplate = new RestTemplate();
+        final RestEntityForBox insertedPost = restTemplate.postForObject("http://localhost:8080/api/growbox/uploadconfig", restEntityForBox, RestEntityForBox.class);
+        System.out.println(insertedPost);
         return "redirect:/green_boxes";
     }
 

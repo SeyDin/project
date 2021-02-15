@@ -8,7 +8,9 @@
     Logged user: <span sec:authentication="name">Username</span>
     <br />
     Roles: <span sec:authentication="principal.authorities">Roles</span>
-    <p><h1>My favorite GrowPrograms:</h1></p>
+    <p>
+    <h1>My GrowPrograms:</h1>
+    </p>
     <div>
         <table class="table table-striped">
             <thead>
@@ -22,7 +24,11 @@
             <tbody>
             <tr th:each="grow_program : ${growPrograms}">
                 <td><h3  th:text="${grow_program.id}"></h3></td>
-                <td><h3  th:text="${grow_program.name}"></h3></td>
+                <td>
+                    <h3>
+                    <a th:href="${'/grow_programs/' + grow_program.getId()}" th:text="${grow_program.name}"> </a>
+                    </h3>
+                </td>
                 <td><h3  th:text="${grow_program.description}"></h3></td>
                 <td><h3  th:text="${grow_program.wateringParameters.getName()}"></h3></td>
             </tr>

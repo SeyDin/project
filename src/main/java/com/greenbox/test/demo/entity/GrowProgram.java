@@ -1,13 +1,19 @@
 package com.greenbox.test.demo.entity;
 
 import com.greenbox.test.demo.entity.growParametrs.WateringParameters;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "grow_programs")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class GrowProgram {
 
     @Id
