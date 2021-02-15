@@ -10,8 +10,8 @@ public class IndexController {
     @GetMapping(value ={"/", "/index"})
     public String index (ModelMap modelMap){
         //System.out.println("Index controller method");
-        modelMap.addAttribute("message", "WelcomeToHell=)");
-        modelMap.addAttribute("title", "CreenBox inc.");
+        modelMap.addAttribute("message", "Welcome=)");
+        modelMap.addAttribute("title", "GreenBox inc.");
         return "index";
     }
 }
