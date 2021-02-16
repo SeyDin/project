@@ -44,10 +44,10 @@ public class GrowProgramController {
         this.temperaturePointsService = temperaturePointsService;
         this.lightPointsService = lightPointsService;
     }
-    /*@InitBinder
+    @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(userRegistrationFormValidator);
-    }*/
+
+    }
 
     @GetMapping
     public String list(ModelMap modelMap){
@@ -101,8 +101,18 @@ public class GrowProgramController {
     }
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute("gp_form") GrowProgramRegistrationForm growProgramRegistrationForm,
-                      BindingResult result){
+                      BindingResult result, ModelMap modelMap){
         if (result.hasErrors()) {
+            User user = userService.getCurrentUser();
+            Set<WateringParameters> wateringParameters = wateringParametersService.readAll();
+            Set<Points> lightParameters = lightPointsService.readAll();
+            Set<Points> temperatureParameters = temperaturePointsService.readAll();
+            Set<Points> co2Parameters = co2Service.readAll();
+            modelMap.addAttribute("co2Parameters", co2Parameters);
+            modelMap.addAttribute("temperatureParameters", temperatureParameters);
+            modelMap.addAttribute("lightParameters", lightParameters);
+            modelMap.addAttribute("wateringParameters", wateringParameters);
+            modelMap.addAttribute("currentUserName", user.getUsername());
             return "grow_programs/add";
         }
         User currentUser = userService.getCurrentUser();
