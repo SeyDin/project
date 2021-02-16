@@ -10,10 +10,8 @@ import javax.validation.constraints.Size;
 public class GrowProgramRegistrationForm {
 
     private Long id;
-    @NotNull
     @Size(min = 3, max = 30)
     private String name;
-    @NotNull
     @Size(min = 3, max = 255)
     private String description;
 

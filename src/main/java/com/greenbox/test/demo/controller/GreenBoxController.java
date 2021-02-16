@@ -80,6 +80,8 @@ public class GreenBoxController {
     public String add(@Valid @ModelAttribute("gb_form") GreenBoxRegistrationForm greenBoxRegistrationForm,
                       BindingResult result, ModelMap modelMap) {
         if (result.hasErrors()) {
+            greenBoxRegistrationForm.setName(greenBoxRegistrationForm.getName());
+            modelMap.addAttribute("growPrograms", growProgramService.readAll());
             return "green_boxes/add";
         }
 

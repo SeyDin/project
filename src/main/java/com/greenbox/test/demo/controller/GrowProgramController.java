@@ -44,10 +44,6 @@ public class GrowProgramController {
         this.temperaturePointsService = temperaturePointsService;
         this.lightPointsService = lightPointsService;
     }
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-
-    }
 
     @GetMapping
     public String list(ModelMap modelMap){
