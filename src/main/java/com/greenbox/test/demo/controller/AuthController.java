@@ -42,17 +42,18 @@ public class AuthController {
     }
 
     @GetMapping("/registration")
-    public String registration(Model model) {
-        model.addAttribute("userRegistrationForm", new UserRegistrationForm());
+    public String registration(ModelMap modelMap) {
+        modelMap.addAttribute("userRegistrationForm", new UserRegistrationForm());
         return "auth/registration";
     }
 
     @PostMapping("/registration")
     public String registration(
             @Valid  @ModelAttribute("userRegistrationForm") UserRegistrationForm userRegistrationForm,
-            BindingResult bindingResult) {
+            BindingResult bindingResult, ModelMap modelMap) {
 
         if (bindingResult.hasErrors()) {
+            modelMap.addAttribute("userRegistrationForm", userRegistrationForm);
             return "auth/registration";
         }
 
